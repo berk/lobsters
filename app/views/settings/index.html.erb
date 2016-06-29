@@ -1,9 +1,9 @@
 <div class="box wide">
   <div class="legend right">
-    <a href="/u/<%= @user.username %>">View Profile</a>
+    <a href="/u/<%= @user.username %>"><%= tr('View Profile') %></a>
   </div>
   <div class="legend">
-    Account Settings
+    <%= tr('Account Settings') %>
   </div>
 
   <%= form_for @edit_user, :url => settings_path, :method => :post,
@@ -11,7 +11,7 @@
     <%= error_messages_for f.object %>
 
     <div class="boxline">
-      <%= f.label :username, "Username:", :class => "required" %>
+      <%= f.label :username, tr('Username:'), :class => "required" %>
       <%= f.text_field :username, :size => 15 %>
       <span class="hint">
         <tt><%= User.username_regex %></tt>
@@ -19,19 +19,19 @@
     </div>
 
     <div class="boxline">
-      <%= f.label :password, "New Password:", :class => "required" %>
+      <%= f.label :password, tr('New Password:'), :class => "required" %>
       <%= f.password_field :password, :size => 40, :autocomplete => "off" %>
     </div>
 
     <div class="boxline">
-      <%= f.label :password_confirmation, "Confirm Password:",
+      <%= f.label :password_confirmation, tr('Confirm Password:'),
         :class => "required" %>
       <%= f.password_field :password_confirmation, :size => 40,
         :autocomplete => "off" %>
     </div>
 
     <div class="boxline">
-      <%= f.label :email, "E-mail Address:", :class => "required" %>
+      <%= f.label :email, tr('E-mail Address:'), :class => "required" %>
       <%= f.text_field :email, :size => 40 %>
       <span class="hint">
         <a href="http://www.gravatar.com/" target="_blank">Gravatar</a>'ized
@@ -39,7 +39,7 @@
     </div>
 
     <div class="boxline">
-      <%= f.label :about, "About:", :class => "required" %>
+      <%= f.label :about, tr('About:'), :class => "required" %>
       <%= f.text_area :about, :size => "100x5", :style => "width: 600px;" %>
     </div>
 
@@ -47,7 +47,7 @@
       <div class="boxline markdown_help_toggler" style="margin-left: 9em;
       width: 600px;">
         <div class="markdown_help_label">
-          Markdown formatting available
+          <%= tr('Markdown formatting available') %>
         </div>
 
         <div style="clear: both;"></div>
@@ -57,13 +57,13 @@
     </div>
 
     <p>
-    <%= f.submit "Save Account Settings" %>
+    <%= f.submit trl('Save Account Settings') %>
     </p>
 
     <br>
 
     <div class="legend">
-      Notification Settings
+      <%= tr('Notification Settings') %>
     </div>
 
     <div class="boxline">
@@ -71,82 +71,80 @@
         raw("<a href=\"https://pushover.net/\">Pushover</a>:"),
         :class => "required" %>
       <%= link_to((f.object.pushover_user_key.present??
-        "Manage Pushover Subscription" : "Subscribe With Pushover"),
+        tr("Manage Pushover Subscription") : tr("Subscribe With Pushover")),
         "/settings/pushover", :class => "pushover_button", :method => :post) %>
       <span class="hint">
-        For optional comment and message notifications below
+        <%= tr('For optional comment and message notifications below') %>
       </span>
     </div>
 
     <br>
 
     <div class="legend">
-      Comment Reply Notification Settings
+      <%= tr('Comment Reply Notification Settings') %>
     </div>
 
     <div class="boxline">
-      <%= f.label :email_replies, "Receive E-mail:", :class => "required" %>
+      <%= f.label :email_replies, tr('Receive E-mail:'), :class => "required" %>
       <%= f.check_box :email_replies %>
     </div>
 
     <div class="boxline">
-      <%= f.label :pushover_replies, "Receive Pushover Alert:",
-        :class => "required" %>
+      <%= f.label :pushover_replies, tr('Receive Pushover Alert:'), :class => "required" %>
       <%= f.check_box :pushover_replies %>
       <span class="hint">
-        Requires Pushover subscription above
+        <%= tr('Requires Pushover subscription above') %>
       </span>
     </div>
 
     <br>
 
     <div class="legend">
-      Comment Mention Notification Settings
+      <%= tr('Comment Mention Notification Settings') %>
     </div>
 
     <div class="boxline">
-      <%= f.label :email_mentions, "Receive E-mail:", :class => "required" %>
+      <%= f.label :email_mentions, tr('Receive E-mail:'), :class => "required" %>
       <%= f.check_box :email_mentions %>
     </div>
 
     <div class="boxline">
-      <%= f.label :pushover_mentions, "Receive Pushover Alert:",
-        :class => "required" %>
+      <%= f.label :pushover_mentions, tr('Receive Pushover Alert:'), :class => "required" %>
       <%= f.check_box :pushover_mentions %>
       <span class="hint">
-        Requires Pushover subscription above
+        <%= tr('Requires Pushover subscription above') %>
       </span>
     </div>
 
     <br>
 
     <div class="legend">
-      Private Message Notification Settings
+      <%= tr('Private Message Notification Settings') %>
     </div>
 
     <div class="boxline">
-      <%= f.label :email_messages, "Receive E-mail:", :class => "required" %>
+      <%= f.label :email_messages, tr('Receive E-mail:'), :class => "required" %>
       <%= f.check_box :email_messages %>
     </div>
 
     <div class="boxline">
-      <%= f.label :pushover_messages, "Receive Pushover Alert:",
+      <%= f.label :pushover_messages, tr('Receive Pushover Alert:'),
         :class => "required" %>
       <%= f.check_box :pushover_messages %>
       <span class="hint">
-        Requires Pushover subscription above
+        <%= tr('Requires Pushover subscription above') %>
       </span>
     </div>
 
     <br>
 
     <div class="legend">
-      Submitted Story Comment Settings
+      <%= tr('Submitted Story Comment Settings') %>
     </div>
 
     <div class="boxline">
       <%= f.label :show_submitted_story_threads,
-        raw("Show in <a href=\"/threads\">Your Threads</a>:"),
+        tr('Show in [link: Your Threads]', link: {href: '/threads'}),
         :class => "required" %>
       <%= f.check_box :show_submitted_story_threads %>
     </div>
@@ -154,54 +152,54 @@
     <br>
 
     <div class="legend">
-      Mailing List Settings
+      <%= tr('Mailing List Settings') %>
     </div>
 
-    <p>
-    When enabled, you will receive all newly submitted stories and comments to
-    your e-mail address entered above, except the stories and comments filtered
-    by your <a href="/filters">tag filters</a>.
-    All e-mail messages will appear to be sent to your private list address
-    shown below which you can filter on, and e-mails you send to that address
-    will be posted under your account on this website.  You should keep your
-    unique list address private to prevent others from posting comments as you.
-    </p>
+    <%= trh({}, {split_sentences: true}) do %>
+      <p>
+      When enabled, you will receive all newly submitted stories and comments to
+      your e-mail address entered above, except the stories and comments filtered
+      by your <a href="/filters">tag filters</a>.
+      All e-mail messages will appear to be sent to your private list address
+      shown below which you can filter on, and e-mails you send to that address
+      will be posted under your account on this website.  You should keep your
+      unique list address private to prevent others from posting comments as you.
+      </p>
+    <% end %>
 
     <div class="boxline">
-      <%= f.label :mailing_list_mode, "Receive List E-mails:",
+      <%= f.label :mailing_list_mode, tr('Receive List E-mails:'),
         :class => "required" %>
-      <%= f.select :mailing_list_mode, [ [ "No e-mails", 0 ],
-        [ "All stories and comments", 1 ], [ "Only stories", 2 ] ] %>
+      <%= f.select :mailing_list_mode, [ [ trl('No e-mails'), 0 ],
+        [ trl('All stories and comments'), 1 ], [ trl('Only stories'), 2 ] ] %>
     </div>
 
     <div class="boxline">
-      <label class="required">List Address:</label>
+      <label class="required"><%= tr('List Address:') %></label>
       <span>
-      <tt><%= Rails.application.shortname %>-<%=
-        @edit_user.mailing_list_token %>@<%= Rails.application.domain %></tt>
+      <tt><%= Rails.application.shortname %>-<%= @edit_user.mailing_list_token %>@<%= Rails.application.domain %></tt>
       </span>
     </div>
 
     <br>
 
     <div class="legend">
-      Miscellaneous Settings
+      <%= tr('Miscellaneous Settings') %>
     </div>
 
     <div class="boxline">
-      <%= f.label :show_story_previews, "Show Story Previews:",
-        :class => "required" %>
+      <%= f.label :show_story_previews, tr('Show Story Previews:'), :class => "required" %>
       <%= f.check_box :show_story_previews %>
     </div>
 
     <div class="boxline">
-      <%= f.label :show_avatars, "Show User Avatars:", :class => "required" %>
+      <%= f.label :show_avatars, tr('Show User Avatars:'), :class => "required" %>
       <%= f.check_box :show_avatars %>
     </div>
 
 
     <br>
-    <%= f.submit "Save All Settings" %>
+    <%= f.submit trl('Save All Settings') %>
   <% end %>
 
   <br>
@@ -209,24 +207,24 @@
 
   <a name="invite"></a>
   <div class="legend">
-    Invite a New User
+    <%= tr('Invite a New User') %>
   </div>
 
   <% if @user.can_invite? %>
     <%= render :partial => "users/invitationform" %>
   <% else %>
-      You cannot send invitations.
+      <%= tr('You cannot send invitations.') %>
   <% end %>
 
   <br>
   <br>
 
-  <%= form_for @edit_user, :url => delete_account_path, :method => :post,
-  :html => { :id => "delete_user" } do |f| %>
+  <%= form_for @edit_user, :url => delete_account_path, :method => :post, :html => { :id => "delete_user" } do |f| %>
     <div class="legend">
-      Delete Account
+      <%= tr('Delete Account') %>
     </div>
 
+    <%= trh({}, {split_sentences: true}) do %>
     <p>
     To permanently delete your account, verify your current password below.
     Your account will be put into a deleted state, your comments will be marked
@@ -236,13 +234,14 @@
     Your username will remain reserved and will not be available to be used on
     any other account.
     </p>
+    <% end %>
 
     <div class="boxline">
-      <%= f.label :password, "Verify Password:", :class => "required" %>
+      <%= f.label :password, tr('Verify Password:'), :class => "required" %>
       <%= f.password_field :password, :size => 40, :autocomplete => "off" %>
     </div>
 
     <br>
-    <%= f.submit "Yes, Delete My Account" %>
+    <%= f.submit trl('Yes, Delete My Account') %>
   <% end %>
 </div>

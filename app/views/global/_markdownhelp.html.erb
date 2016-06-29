@@ -1,11 +1,11 @@
 <div class="markdown_help" style="display: none; padding-top: 0.5em;">
   <table>
   <tr>
-    <td width="125"><em>emphasized text</em></td>
+    <td width="125"><em><%= tr('emphasized text') %></em></td>
     <td>surround text with <tt>*asterisks*</tt></td>
   </tr>
   <tr>
-    <td><strong>strong text</strong></td>
+    <td><strong><%= tr('strong text') %></strong></td>
     <td>surround text with <tt>**two asterisks**</tt></td>
   </tr>
   <!--
@@ -15,17 +15,17 @@
   </tr>
   -->
   <tr>
-    <td><tt>fixed width</tt></td>
+    <td><tt><%= tr('fixed width') %></tt></td>
     <td>surround text with <tt>`backticks`</tt></td>
   </tr>
   <tr>
     <td><a href="http://example.com/"
-      style="color: inherit;">linked text</a></td>
+      style="color: inherit;"><%= tr('linked text') %></a></td>
     <td><tt>[linked text](http://example.com/)</tt> or just a bare URL
       to create without a title</td>
   </tr>
   <tr>
-    <td><blockquote> quoted text</blockquote></td>
+    <td><blockquote> <%= tr('quoted text') %></blockquote></td>
     <td>prefix text with <tt>&gt;</tt></td>
   </tr>
   <tr>

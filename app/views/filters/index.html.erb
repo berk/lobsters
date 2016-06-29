@@ -1,28 +1,27 @@
 <div class="box wide">
   <div class="legend">
-    Filtered Tags
+    <%= tr('Filtered Tags') %>
   </div>
 
   <p>
-  To hide stories from the home page that have been tagged with certain <a
-  href="/tags">tags</a>, check them below.
+    <%= tr('To hide stories from the home page that have been tagged with certain [link: tags], check them below.', link: {href: '/tags'}) %>
   </p>
 
   <% if !@user %>
     <p>
-    Since you are not logged in, your filters will be stored in a long-lasting
-    browser cookie.  To permanently store your tag filters and have them work
-    across browsers, <a href="/login">login</a> to your account.
+      Since you are not logged in, your filters will be stored in a long-lasting
+      browser cookie.  To permanently store your tag filters and have them work
+      across browsers, <a href="/login">login</a> to your account.
     </p>
   <% end %>
 
   <%= form_tag "/filters", :method => :post do %>
     <table class="data zebra" cellspacing=0 width="75%">
     <tr>
-      <th width="7%">Hide</th>
-      <th width="13%">Tag</th>
-      <th width="65%">Description</th>
-      <th width="5%" style="text-align: right; padding-right: 1em;">Stories</th>
+      <th width="7%"><%= tr('Hide') %></th>
+      <th width="13%"><%= tr('Tag') %></th>
+      <th width="65%"><%= tr('Description') %></th>
+      <th width="5%" style="text-align: right; padding-right: 1em;"><%= tr('Stories') %></th>
     </tr>
     <% @tags.each do |tag| %>
       <tr>
@@ -35,8 +34,7 @@
             <em>(hotness mod <%= tag.hotness_mod > 0 ? "+" : ""%><%=
               tag.hotness_mod %>)</em>
           <% end %></td>
-        <td style="text-align: right; padding-right: 1em;"><%=
-          tag.stories_count %></td>
+        <td style="text-align: right; padding-right: 1em;"><%= tag.stories_count %></td>
       </tr>
     <% end %>
     </table>

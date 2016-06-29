@@ -61,27 +61,27 @@ module ApplicationHelper
   end
 
   def time_ago_in_words_label(time, options = {})
-    ago = ""
+    ago = ''
     secs = (Time.now - time).to_i
     if secs <= 5
-      ago = "just now"
+      ago = tr('just now')
     elsif secs < 60
-      ago = "less than a minute ago"
+      ago = tr('less than a minute ago')
     elsif secs < (60 * 60)
       mins = (secs / 60.0).floor
-      ago = "#{mins} minute#{mins == 1 ? "" : "s"} ago"
+      ago = tr('{num || minute} ago', num: mins)
     elsif secs < (60 * 60 * 48)
       hours = (secs / 60.0 / 60.0).floor
-      ago = "#{hours} hour#{hours == 1 ? "" : "s"} ago"
+      ago = tr('{num || hour} ago', num: hours)
     elsif secs < (60 * 60 * 24 * 30)
       days = (secs / 60.0 / 60.0 / 24.0).floor
-      ago = "#{days} day#{days == 1 ? "" : "s"} ago"
+      ago = tr('{num || day} ago', num: days)
     elsif secs < (60 * 60 * 24 * 365)
       months = (secs / 60.0 / 60.0 / 24.0 / 30.0).floor
-      ago = "#{months} month#{months == 1 ? "" : "s"} ago"
+      ago = tr('{num || month} ago', num: months)
     else
       years = (secs / 60.0 / 60.0 / 24.0 / 365.0).floor
-      ago = "#{years} year#{years == 1 ? "" : "s"} ago"
+      ago = tr('{num || year} ago', num: years)
     end
 
     raw(content_tag(:span, ago, :title => time.strftime("%F %T %z")))

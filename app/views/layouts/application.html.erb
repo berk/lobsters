@@ -40,12 +40,16 @@
       title="<%= @comments_rss_link[:title] %>"
       href="<%= @comments_rss_link[:href] %>" />
   <% end %>
+
+  <%= tml_scripts_tag %>
+
 </head>
 <body>
+  <%= tml_language_selector_tag(:sideflags) %>
   <div id="wrapper">
     <div id="header">
       <div id="headerleft">
-        <a id="l_holder" style="background-color: #<%= @traffic_color %>;"
+        <a id="l_holder" style="<%= "background-color: ##{@traffic_color}"%>;"
           href="/" title="<%= Rails.application.name %> (Current traffic: <%=
           @traffic.to_i %>)"></a>
 
@@ -95,8 +99,8 @@
             raw("class=\"cur_url\"") : "" %>><%= @user.username %>
             (<%= @user.karma %>)</a>
 
-          <%= link_to t('.logoutlink'), { :controller => "login", :action => "logout" },
-            :data => { :confirm => t('.confirmlogoutlink') },
+          <%= link_to tr('Logout'), { :controller => "login", :action => "logout" },
+            :data => { :confirm => trl('Are you sure you want to logout?') },
             :method => "post" %>
         <% else %>
           <a href="/login"><%= t('.loginlink') %></a>

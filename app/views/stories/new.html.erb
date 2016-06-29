@@ -1,6 +1,6 @@
 <div class="box" id="story_box">
   <div class="legend">
-    Submit a Story
+    <%= tr('Submit a Story') %>
   </div>
 
   <div id="story_holder">
@@ -13,13 +13,13 @@
       <div class="box">
         <div class="boxline actions markdown_help_toggler">
           <div class="markdown_help_label">
-            Markdown formatting available
+            <%= tr('Markdown formatting available') %>
           </div>
 
           <%= submit_tag "Submit" %>
 
           &nbsp;
-          <button type="button" class="story-preview">Preview</button>
+          <button type="button" class="story-preview"><%= tr('Preview') %></button>
 
           <div style="clear: both;"></div>
 

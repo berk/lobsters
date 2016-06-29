@@ -1,9 +1,11 @@
-<p>
-Invitations are unlimited, but persons you invite will be associated with your
-account in the <a href="/u">user tree</a> and you may be responsible for them
-if they cause problems.  Please use your discretion when inviting persons you
-don't personally know.
-</p>
+<%= trh({}, {split_sentences: true}) do %>
+  <p>
+    Invitations are unlimited, but persons you invite will be associated with your
+    account in the <a href="/u">user tree</a> and you may be responsible for them
+    if they cause problems.  Please use your discretion when inviting persons you
+    don't personally know.
+  </p>
+<% end %>
 
 <%= form_tag "/invitations", :method => :post do |f| %>
   <% if defined?(return_home) && return_home %>
@@ -11,18 +13,18 @@ don't personally know.
   <% end %>
 
   <div class="boxline">
-    <%= label_tag :email, "E-mail Address:", :class => "required" %>
+    <%= label_tag :email, tr('E-mail Address:'), :class => "required" %>
     <%= text_field_tag :email, "", :size => 30, :autocomplete => "off" %>
   </div>
 
   <div class="boxline">
-    <%= label_tag :memo, "Memo to User:", :class => "required" %>
+    <%= label_tag :memo, tr('Memo to User:'), :class => "required" %>
     <%= text_field_tag :memo, "", :size => 60 %>
   </div>
 
   <div class="boxline">
     <p></p>
-    <%= submit_tag "Send Invitation" %>
+    <%= submit_tag trl('Send Invitation') %>
   </div>
 <% end %>
 

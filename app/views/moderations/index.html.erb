@@ -1,13 +1,13 @@
 <div class="box wide">
   <div class="legend">
-    Moderation Log
+    <%= tr('Moderation Log') %>
   </div>
 
   <table class="data" width="100%" cellspacing=0>
   <tr>
-    <th style="min-width: 130px;">Date/Time</th>
-    <th>Moderator</th>
-    <th>Story/Comment/User, Action, Reason</th>
+    <th style="min-width: 130px;"><%= tr('Date/Time') %></th>
+    <th><%= tr('Moderator') %></th>
+    <th><%= tr('Story/Comment/User, Action, Reason') %></th>
   </tr>
   <% bit = 0 %>
   <% @moderations.each do |mod| %>
@@ -38,12 +38,12 @@
     </tr>
     <tr class="row<%= bit %> <%= mod.reason.present?? "nobottom" : "" %>">
       <td colspan=2></td>
-      <td>Action: <em><%= mod.action %></em></td>
+      <td><%= tr('Action:') %> <em><%= mod.action %></em></td>
     </tr>
     <% if mod.reason.present? %>
       <tr class="row<%= bit %>">
         <td colspan=2></td>
-        <td>Reason: <em><%= mod.reason %></em></td>
+        <td><%= tr('Reason:') %> <em><%= mod.reason %></em></td>
       </tr>
     <% end %>
     <% bit = (bit == 1 ? 0 : 1) %>

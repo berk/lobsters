@@ -18,12 +18,14 @@ class="story <%= story.vote && story.vote[:vote] == 1 ? "upvoted" : "" %>
   <div class="details">
     <span class="link">
       <% if story.can_be_seen_by_user?(@user) %>
-        <a href="<%= story.url_or_comments_path %>"><%=
-          break_long_words(story.title) %></a>
+        <a href="<%= story.url_or_comments_path %>"><%= break_long_words(story.title) %></a>
       <% end %>
       <% if story.is_gone? %>
-        [Story removed by <%= story.is_moderated? ? "moderator" :
-          "original submitter" %>]
+        <% if story.is_moderated? %>
+          <%= tr('[Story removed by moderator]') %>
+        <% else %>
+          <%= tr('[Story removed by original submitter]') %>
+        <% end %>
       <% end %>
     </span>
     <% if story.markeddown_description.present? %>
@@ -39,8 +41,7 @@ class="story <%= story.vote && story.vote[:vote] == 1 ? "upvoted" : "" %>
         <% end %>
       </span>
       <% if story.domain.present? %>
-        <a class="domain" href="<%= story.domain_search_url %>"><%=
-          break_long_words(story.domain) %></a>
+        <a class="domain" href="<%= story.domain_search_url %>"><%= break_long_words(story.domain) %></a>
       <% end %>
 
       <% if defined?(single_story) && single_story %>
@@ -48,8 +49,7 @@ class="story <%= story.vote && story.vote[:vote] == 1 ? "upvoted" : "" %>
           <br>
           <span class="merge"></span>
           <span class="link">
-            <a href="<%= ms.url_or_comments_path %>"><%=
-              break_long_words(ms.title) %></a>
+            <a href="<%= ms.url_or_comments_path %>"><%= break_long_words(ms.title) %></a>
           </span>
           <span class="tags">
             <% ms.sorted_taggings.each do |tagging| %>
@@ -69,15 +69,11 @@ class="story <%= story.vote && story.vote[:vote] == 1 ? "upvoted" : "" %>
                 srcset="<%= ms.user.avatar_url(16) %> 1x,
                 <%= ms.user.avatar_url(32) %> 2x" class="avatar"></a>
             <% end %>
-            <% if story.user_is_author? %>
-              authored by
-            <% else %>
-              via
-            <% end %>
-            <a href="/u/<%= ms.user.username %>" class="<%=
-              ms.html_class_for_user %>"><%= ms.user.username %></a>
-
-            <%= time_ago_in_words_label(ms.created_at, :strip_about => true) %>
+              <%= tr(story.user_is_author? ? 'authored by [link: {user}] {time}' : 'via [link: {user}] {time}',
+                     user: [ms.user, :username],
+                     time: time_ago_in_words_label(ms.created_at, :strip_about => true),
+                     link: {href: "/u/#{ms.user.username}", class: ms.html_class_for_user}
+                  ) %>
           </span>
         <% end %>
       <% end %>
@@ -100,83 +96,76 @@ class="story <%= story.vote && story.vote[:vote] == 1 ? "upvoted" : "" %>
           <%= story.user.avatar_url(32) %> 2x" class="avatar"></a>
       <% end %>
       <% if story.previewing %>
-        <% if story.user_is_author? %>
-          authored by
-        <% else %>
-          via
-        <% end %>
-        <a class="<%= story.html_class_for_user %>"><%=
-          story.user.username %></a>
-        just now
+          <%= tr(story.user_is_author? ? 'authored by [link: {user}] just now' : 'via [link: {user}] just now',
+                 user: [story.user, :username],
+                 link: {class: story.html_class_for_user}
+              ) %>
       <% else %>
-        <% if story.user_is_author? %>
-          authored by
-        <% else %>
-          via
-        <% end %>
-        <a href="/u/<%= story.user.username %>" class="<%=
-          story.html_class_for_user %>"><%= story.user.username %></a>
-
-        <%= time_ago_in_words_label(story.created_at, :strip_about => true) %>
+        <%= tr(story.user_is_author? ? 'authored by [link: {user}] {time}' : 'via [link: {user}] {time}',
+               user: [story.user, :username],
+               link: {href: "/u/#{story.user.username}", class: story.html_class_for_user},
+               time: time_ago_in_words_label(story.created_at, :strip_about => true)
+            ) %>
 
         <% if story.is_editable_by_user?(@user) %>
           |
-          <a href="<%= edit_story_path(story.short_id) %>">edit</a>
+          <a href="<%= edit_story_path(story.short_id) %>"><%= tr('edit') %></a>
 
           <% if story.is_gone? && story.is_undeletable_by_user?(@user) %>
             |
-            <%= link_to "undelete", story_undelete_path(story.short_id),
+            <%= link_to tr('undelete'), story_undelete_path(story.short_id),
               :method => :post, :data => {
-              :confirm => "Are you sure you want to undelete this story?" } %>
+              :confirm => trl('Are you sure you want to undelete this story?') } %>
           <% elsif !story.is_gone? %>
             |
             <% if story.user_id != @user.try(:id) &&
             @user.try(:is_moderator?) %>
-              <%= link_to "delete", story_path(story.short_id),
+              <%= link_to tr('delete'), story_path(story.short_id),
                 :method => :delete, :class => "mod_story_link" %>
             <% else %>
-              <%= link_to "delete", story_path(story.short_id),
+              <%= link_to tr('delete'), story_path(story.short_id),
                 :method => :delete, :data => {
-                :confirm => "Are you sure you want to delete this story?" } %>
+                :confirm => trl("Are you sure you want to delete this story?") } %>
             <% end %>
           <% end %>
         <% end %>
         <% if story.can_have_suggestions_from_user?(@user) %>
-          | <%= link_to "suggest", story_suggest_path(story.short_id),
+          | <%= link_to tr('suggest'), story_suggest_path(story.short_id),
             :class => "suggester" %>
         <% end %>
         <% if !story.is_gone? && @user %>
           <% if @user && story.vote && story.vote[:vote] == -1 %>
-            | <a class="flagger">unflag (<%=
-              Vote::STORY_REASONS[story.vote[:reason]].to_s.downcase %>)</a>
+            |
+            <a class="flagger">
+              <%= tr('unflag ({reason})', reason: tr(Vote::STORY_REASONS[story.vote[:reason]].to_s.downcase)) %>
+            </a>
           <% elsif @user && @user.can_downvote?(story) %>
-            | <a class="flagger">flag</a>
+            |
+            <a class="flagger"><%= tr('flag') %></a>
           <% end %>
           <% if story.is_hidden_by_cur_user %>
-            | <%= link_to "unhide", story_unhide_path(story.short_id),
-              :class => "hider" %>
+            |
+            <%= link_to tr('unhide'), story_unhide_path(story.short_id), :class => "hider" %>
           <% else %>
-            | <%= link_to "hide", story_hide_path(story.short_id),
-              :class => "hider" %>
+            |
+            <%= link_to tr('hide'), story_hide_path(story.short_id), :class => "hider" %>
           <% end %>
           <% if defined?(single_story) && single_story && story.hider_count > 0 %>
-            (hidden by <%= pluralize(story.hider_count, "user") %>)
+            <%= tr('(hidden by {count || user})', count: story.hider_count) %>
           <% end %>
         <% end %>
         <% if story.url.present? %>
           |
-          <a href="https://archive.is/<%= story.url %>" rel="nofollow"
-            target="_new">cached</a>
+          <a href="https://archive.is/<%= story.url %>" rel="nofollow" target="_new"><%= tr('cached') %></a>
         <% end %>
         <% if !story.is_gone? %>
           <span class="comments_label">
             |
             <a href="<%= story.comments_path %>">
             <% if story.comments_count == 0 %>
-              no comments
+              <%= tr('no comments') %>
             <% else %>
-              <%= story.comments_count %>
-                comment<%= story.comments_count == 1 ? "" : "s" %>
+              <%= tr('{count || comment}', count: story.comments_count) %>
             <% end %>
             </a>
           </span>
@@ -191,8 +180,7 @@ class="story <%= story.vote && story.vote[:vote] == 1 ? "upvoted" : "" %>
     </div>
   </div>
 </div>
-<div class="mobile_comments <%= story.comments_count == 0 ? "zero" : "" %>"
-style="display: none;">
+<div class="mobile_comments <%= story.comments_count == 0 ? "zero" : "" %>" style="display: none;">
   <a href="<%= story.comments_path %>"><%= story.comments_count %></a>
 </div>
 </li>

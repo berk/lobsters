@@ -1,5 +1,5 @@
-<%= @comment.user.username %> has mention you in a comment:
+<%= tr('{user} has mention you in a comment:', user: [@comment.user, :username]) %>
 
   <%= word_wrap(@comment.plaintext_comment, :line_width => 72).gsub(/\n/, "\n  ") %>
 
-Continue this discussion at <%= @comment.url %>
+<%= tr('Continue this discussion at {url}', url: @comment.url) %>

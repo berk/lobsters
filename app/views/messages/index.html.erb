@@ -10,15 +10,15 @@
 <div class="box wide">
   <div class="legend" style="float: right;">
     <% if @direction == :out %>
-      <a href="/messages">View Received</a>
+      <a href="/messages"><%= tr('View Received') %></a>
     <% else %>
-      <a href="/messages/sent">View Sent</a>
+      <a href="/messages/sent"><%= tr('View Sent') %></a>
     <% end %>
   </div>
   <div class="legend">
-    Private Messages
+    <%= tr('Private Messages') %>
     <% if @direction == :out %>
-      Sent
+      <%= tr('Sent') %>
     <% end %>
   </div>
 
@@ -28,8 +28,8 @@
       <tr>
         <th width="3%"><%= check_box_tag "delete_all",
           :id => "delete_all" %></th>
-        <th width="15%"><%= @direction == :in ? "From" : "To" %></th>
-        <th width="17%"><%= @direction == :in ? "Received" : "Sent" %></th>
+        <th width="15%"><%= @direction == :in ? tr("From") : tr("To") %></th>
+        <th width="17%"><%= @direction == :in ? tr("Received") : tr("Sent") %></th>
         <th width="60%">Subject</th>
       </tr>
       <% @messages.includes(:author, :recipient).each do |message| %>
@@ -53,46 +53,45 @@
       <% end %>
       </table>
       <p>
-      <%= submit_tag "Delete Selected" %>
+      <%= submit_tag trl('Delete Selected') %>
       </p>
     <% end %>
   <% else %>
     <p>
-    You do not have any <%= @direction == :in ? "" : "sent" %> private
-      messages.
+      <%= tr("You do not have any #{'sent ' if @direction == :in}private messages.") %>
     </p>
   <% end %>
 
   <br>
 
   <div class="legend">
-    Compose Message
+    <%= tr('Compose Message') %>
   </div>
 
   <%= form_for @new_message, :method => :post do |f| %>
     <%= error_messages_for @new_message %>
 
     <div class="boxline">
-      <%= f.label :recipient_username, "To:", :class => "required" %>
+      <%= f.label :recipient_username, tr("To:"), :class => "required" %>
       <%= f.text_field :recipient_username, :size => 20,
         :autocomplete => "off" %>
     </div>
 
     <div class="boxline">
-      <%= f.label :subject, "Subject:", :class => "required" %>
+      <%= f.label :subject, tr("Subject:"), :class => "required" %>
       <%= f.text_field :subject, :style => "width: 500px;",
         :autocomplete => "off" %>
     </div>
 
     <div class="boxline">
-      <%= f.label :body, "Message:", :class => "required" %>
+      <%= f.label :body, tr("Message:"), :class => "required" %>
       <%= f.text_area :body, :style => "width: 500px;", :rows => 5,
         :autocomplete => "off" %>
     </div>
 
     <div class="boxline">
       <p></p>
-      <%= submit_tag "Send Message" %>
+      <%= submit_tag trl('Send Message') %>
     </div>
   <% end %>
 </div>
