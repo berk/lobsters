@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html <%=tml_html_attributes_tag%>>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -23,7 +23,9 @@
   <% end %>
   <title><%= @title.present? ? "#{@title} | " : "" %><%=
     Rails.application.name %></title>
-  <%= stylesheet_link_tag "application", :media => "all" %>
+
+  <%= tml_stylesheet_link_tag('application', 'application.rtl', media: 'all') %>
+
   <% if @user %>
     <%= javascript_include_tag "application" %>
     <script>
@@ -44,7 +46,7 @@
   <%= tml_scripts_tag %>
 
 </head>
-<body>
+<body <%=tml_dir_attribute_tag%>>
   <%= tml_language_selector_tag(:sideflags) %>
   <div id="wrapper">
     <div id="header">
